@@ -8,6 +8,7 @@ const taskDate = document.getElementById('taskDate');
 const taskPriority = document.getElementById('taskPriority');
 const addTaskBtn = document.getElementById('addTaskBtn');
 const todoDiv = document.getElementById('todoContainer');
+const totalTask = document.getElementById('total');
 let tasks = [];
 
 // Popup Open and Close
@@ -18,6 +19,15 @@ addTask.addEventListener('click', function() {
 cancel.addEventListener('click', function() {
     addTaskModal.classList.add('hidden');
 });
+
+// Clear inputs of forms 
+function clearInputs() {
+    taskTitle.value = '';
+    taskDescription.value = '';
+    taskStatus.value = '';
+    taskDate.value = '';
+    taskPriority.value = '';
+}
 
 // Add Task
 addTaskBtn.addEventListener('click', function() {
@@ -30,17 +40,16 @@ addTaskBtn.addEventListener('click', function() {
     };
 
     tasks.push(newTask);
-    displayTasks();
+    console.log(tasks.length)
+    totalTask.innerHTML =  tasks.length ;
     clearInputs(); 
+    
     addTaskModal.classList.add('hidden'); 
 });
 
-// clear inputs of forms 
-function clearInputs() {
-    taskTitle.value = '';
-    taskDescription.value = '';
-    taskStatus.value = '';
-    taskDate.value = '';
-    taskPriority.value = '';
+// Display Task 
+function displayTasks() {
+    
 }
+
 
