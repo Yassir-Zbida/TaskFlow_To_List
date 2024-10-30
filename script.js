@@ -58,7 +58,7 @@ addTaskBtn.addEventListener('click', function() {
     };
 
     tasks.push(newTask);
-    console.log(tasks.length)
+    console.log(tasks.length);
     clearInputs(); 
     updateTaskCounters();
     addTaskModal.classList.add('hidden');
@@ -70,11 +70,6 @@ function displayTask() {
     const todo = document.getElementById('todoContainer');
     const doing = document.getElementById('doingContainer');
     const done = document.getElementById('doneContainer');
-    // let borderColor ;
-    // if (task.priority === 'P0'){
-    //     borderColorClass = 'border-red-500';
-    // }
-    // else
     todo.innerHTML = "";
     doing.innerHTML = "";
     done.innerHTML = "";
@@ -82,7 +77,7 @@ function displayTask() {
     for (let i = 0; i < tasks.length; i++) {
         const status = tasks[i].status.toLowerCase();
         if (status === 'todo') {
-            createHtml(todo, tasks[i]);
+            createHtml(todo, tasks[i]); // Pass the current task to createHtml
         } else if (status === 'doing') {
             createHtml(doing, tasks[i]);
         } else if (status === 'done') {
@@ -91,19 +86,29 @@ function displayTask() {
     }
 }
 
-// create Task card 
-function createHtml(placeholder , tasks){
+// Create Task card 
+function createHtml(placeholder, task) { 
     const div = document.createElement('div');
-    div.innerHTML = `<div class="p-4 border-l-4 border-red-500 bg-gray-50 rounded-lg flex justify-between items-center" draggable="true">
-                    <div>
-                        <h3 class="font-semibold" draggable="true">${tasks.title}</h3>
-                        <p class="text-sm text-gray-500">Due: ${tasks.date}</p>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <button class="text-red-500 hover:text-red-700">Delete</button>
-                        <button class="text-yellow-500 hover:text-yellow-700">Edit</button>
-                    </div>
-                </div>`
-                placeholder.appendChild(div);
+
+    let borderColorClass;
+    if (task.priority === 'P0') {
+        borderColorClass = 'border-red-500';
+    } else if (task.priority === 'P1') {
+        borderColorClass = 'border-yellow-400';
+    } else if (task.priority === 'P2') {
+        borderColorClass = 'border-green-500';
+    }
+
+    div.innerHTML = `<div class="p-4 border-l-4 ${borderColorClass} bg-gray-50 rounded-lg flex justify-between items-center" draggable="true">
+                        <div>
+                            <h3 class="font-semibold" draggable="true">${task.title}</h3>
+                            <p class="text-sm text-gray-500">Due: ${task.date}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="text-red-500 hover:text-red-700">Delete</button>
+                            <button class="text-yellow-500 hover:text-yellow-700">Edit</button>
+                        </div>
+                    </div>`;
+    placeholder.appendChild(div);
 }
 
