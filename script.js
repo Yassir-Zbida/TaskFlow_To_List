@@ -7,8 +7,9 @@ const taskStatus = document.getElementById('taskStatus');
 const taskDate = document.getElementById('taskDate');
 const taskPriority = document.getElementById('taskPriority');
 const addTaskBtn = document.getElementById('addTaskBtn');
-const todoDiv = document.getElementById('todoContainer');
-const totalTask = document.getElementById('total');
+const totalTaskTodo = document.getElementById('todoTotal');
+const totalTaskDoing = document.getElementById('doingTotal');
+const totalTaskDone = document.getElementById('doneTotal');
 let tasks = [];
 
 // Popup Open and Close
@@ -29,6 +30,23 @@ function clearInputs() {
     taskPriority.value = '';
 }
 
+// Update Total Counter Span 
+function updateTaskCounters() {
+    let todoCount = 0;
+    let doingCount = 0;
+    let doneCount = 0;
+
+    tasks.forEach(task => {
+        if (task.status === 'todo') todoCount++;
+        else if (task.status === 'doing') doingCount++;
+        else if (task.status === 'done') doneCount++;
+    });
+
+    totalTaskTodo.textContent = todoCount;
+    totalTaskDoing.textContent = doingCount;
+    totalTaskDone.textContent = doneCount;
+}
+
 // Add Task
 addTaskBtn.addEventListener('click', function() {
     const newTask = {
@@ -41,15 +59,51 @@ addTaskBtn.addEventListener('click', function() {
 
     tasks.push(newTask);
     console.log(tasks.length)
-    totalTask.innerHTML =  tasks.length ;
     clearInputs(); 
-    
-    addTaskModal.classList.add('hidden'); 
+    updateTaskCounters();
+    addTaskModal.classList.add('hidden');
+    displayTask();
 });
 
 // Display Task 
-function displayTasks() {
-    
+function displayTask() {
+    const todo = document.getElementById('todoContainer');
+    const doing = document.getElementById('doingContainer');
+    const done = document.getElementById('doneContainer');
+    // let borderColor ;
+    // if (task.priority === 'P0'){
+    //     borderColorClass = 'border-red-500';
+    // }
+    // else
+    todo.innerHTML = "";
+    doing.innerHTML = "";
+    done.innerHTML = "";
+
+    for (let i = 0; i < tasks.length; i++) {
+        const status = tasks[i].status.toLowerCase();
+        if (status === 'todo') {
+            createHtml(todo, tasks[i]);
+        } else if (status === 'doing') {
+            createHtml(doing, tasks[i]);
+        } else if (status === 'done') {
+            createHtml(done, tasks[i]);
+        }
+    }
 }
 
+// create Task card 
+function createHtml(placeholder , tasks){
+    const div = document.createElement('div');
+    div.innerHTML = `<div class="p-4 border-l-4 border-red-500 bg-gray-50 rounded-lg flex justify-between items-center" draggable="true">
+                    <div>
+                        <h3 class="font-semibold" draggable="true">${tasks.title}</h3>
+                        <p class="text-sm text-gray-500">Due: ${tasks.date}</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="text-red-500 hover:text-red-700">Delete</button>
+                        <button class="text-yellow-500 hover:text-yellow-700">Edit</button>
+                    </div>
+                </div>`
+                placeholder.appendChild(div);
+}
 
