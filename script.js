@@ -20,6 +20,7 @@ const editTaskStatus = document.getElementById('editTaskStatus');
 const editTaskDate = document.getElementById('editTaskDate');
 const editTaskPriority = document.getElementById('editTaskPriority');
 const editTaskBtn = document.getElementById('editTaskBtn');
+let drag = null ;
 
 
 let tasks = [];
@@ -57,29 +58,29 @@ function hideModal(){
 }
 
 // Edit Popup 
-function showEditModal(index){
+function showEditModal(index) {
     editTask.classList.remove('hidden');
-    console.log(tasks[index].title);
-    editTaskTitle.value = tasks[index].title ;
-    editTaskDescription.value = tasks[index].description ;
-    editTaskStatus.value = tasks[index].status ;
-    editTaskDate.value = tasks[index].date ;
+    editTaskTitle.value = tasks[index].title;
+    editTaskDescription.value = tasks[index].description;
+    editTaskStatus.value = tasks[index].status;
+    editTaskDate.value = tasks[index].date;
     editTaskPriority.value = tasks[index].priority;
-    editTaskBtn.addEventListener('click',function(){
-        const editTask = {
-            title: editTaskTitle.value,
-            description: editTaskDescription.value,
-            status: editTaskStatus.value,
-            date: editTaskDate.value,
-            priority: editTaskPriority.value
-        };
-        tasks[index]= editTask;
-        console.log(tasks[index]);
-        displayTask();
-        hideModal();
-        updateTaskCounters();
-    })
-    
+    editTaskBtn.onclick = function() {
+        editTaskFunction(index);
+    };
+}
+// Edit task 
+function editTaskFunction(index) {
+    tasks[index] = {
+        title: editTaskTitle.value,
+        description: editTaskDescription.value,
+        status: editTaskStatus.value,
+        date: editTaskDate.value,
+        priority: editTaskPriority.value
+    };
+    displayTask();
+    hideModal();
+    updateTaskCounters();
 }
 
 
@@ -135,12 +136,10 @@ function displayTask() {
             createHtml(done, tasks[i],i);
         }
     }
-    console.log(tasks)
+    
 }
 // delete task 
 function deleteTask(index){
-    console.log(index);
-    
     tasks.splice(index , 1)
     displayTask();
     updateTaskCounters();
@@ -157,7 +156,7 @@ function createHtml(placeholder, task, index) {
         borderColorClass = 'border-green-500';
     }
 
-    div.innerHTML = `<div class="p-4 border-l-4 ${borderColorClass} bg-gray-50 rounded-lg flex justify-between items-center" draggable="true">
+    div.innerHTML = `<div class=" taskContainer p-4 border-l-4 ${borderColorClass} bg-gray-50 rounded-lg flex justify-between items-center" draggable="true">
                         <div>
                             <h3 class="font-semibold" draggable="true">${task.title}</h3>
                             <p class="text-sm text-gray-500">Due: ${task.date}</p>
@@ -169,6 +168,21 @@ function createHtml(placeholder, task, index) {
                     </div>`;
                  
     placeholder.appendChild(div);
+    // dragTask();
     
 }
 
+// drag drop function 
+// function dragTask(){
+//     let items = document.querySelectorAll('.taskContainer');
+//     items.forEach(item =>{
+//         item.addEventListener('dragstart',function(){
+//             drag = item ;
+//             item.style.opacity = '0.3' ;
+//         })
+//         item.addEventListener('dragend',function(){
+//             drag = null ;
+//             item.style.opacity = '1' ;
+//         })
+//     })
+// }
