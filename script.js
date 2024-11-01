@@ -33,8 +33,47 @@ addTask.addEventListener('click', function() {
 cancel.addEventListener('click', function() {
     addTaskModal.classList.add('hidden');
 });
+ // Add Task Form Validation
+function validateTaskForm() {
+    let errorMessage = '';
+
+    if (!taskTitle.value.trim()) {
+        errorMessage += 'Task title is required.\n';
+    }
+
+    if (!taskDescription.value.trim()) {
+        errorMessage += 'Task description is required.\n';
+    }
+
+    const dueDate = new Date(taskDate.value);
+    const today = new Date();
+    if (!taskDate.value) {
+        errorMessage += 'Due date is required.\n';
+    } else if (dueDate < today.setHours(0, 0, 0, 0)) {
+        errorMessage += 'Due date must be today or a future date.\n';
+    }
+
+    if (!taskPriority.value) {
+        errorMessage += 'Please select a priority level.\n';
+    }
+
+    if (!taskStatus.value) {
+        errorMessage += 'Please select a task status.\n';
+    }
+
+    if (errorMessage) {
+        alert(errorMessage);
+        return false;
+    }
+    return true;
+}
+
+
 // Add Task
 addTaskBtn.addEventListener('click', function() {
+    if (!validateTaskForm()) {
+        return; 
+    }
     const newTask = {
         title: taskTitle.value,
         description: taskDescription.value,
