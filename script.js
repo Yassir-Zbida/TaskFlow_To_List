@@ -138,12 +138,19 @@ function displayTask() {
     }
     
 }
+
 // delete task 
-function deleteTask(index){
-    tasks.splice(index , 1)
-    displayTask();
-    updateTaskCounters();
+function deleteTask(index) {
+    const taskContainers = document.querySelectorAll('.taskContainer');
+    const taskToRemove = taskContainers[index];
+    taskToRemove.classList.add('transition-opacity', 'duration-500', 'opacity-0');
+    setTimeout(() => {
+        tasks.splice(index, 1);
+        displayTask();
+        updateTaskCounters();
+    }, 500);
 }
+
 // Create Task card 
 function createHtml(placeholder, task, index) { 
     const div = document.createElement('div');
@@ -168,21 +175,21 @@ function createHtml(placeholder, task, index) {
                     </div>`;
                  
     placeholder.appendChild(div);
-    // dragTask();
+    dragTask();
     
 }
 
 // drag drop function 
-// function dragTask(){
-//     let items = document.querySelectorAll('.taskContainer');
-//     items.forEach(item =>{
-//         item.addEventListener('dragstart',function(){
-//             drag = item ;
-//             item.style.opacity = '0.3' ;
-//         })
-//         item.addEventListener('dragend',function(){
-//             drag = null ;
-//             item.style.opacity = '1' ;
-//         })
-//     })
-// }
+function dragTask(){
+    let items = document.querySelectorAll('.taskContainer');
+    items.forEach(item =>{
+        item.addEventListener('dragstart',function(){
+            drag = item ;
+            item.style.opacity = '0.3' ;
+        })
+        item.addEventListener('dragend',function(){
+            drag = null ;
+            item.style.opacity = '1' ;
+        })
+    })
+}
