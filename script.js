@@ -155,41 +155,33 @@ function deleteTask(index) {
 function createHtml(placeholder, task, index) { 
     const div = document.createElement('div');
     let borderColorClass;
+    let bgColor ;
+
     if (task.priority === 'P0') {
         borderColorClass = 'border-red-500';
+        bgColor = 'bg-red-500/[.08]';
     } else if (task.priority === 'P1') {
         borderColorClass = 'border-yellow-400';
+        bgColor = 'bg-yellow-500/[.08]';
     } else if (task.priority === 'P2') {
+        bgColor = 'bg-green-500/[.08]';
         borderColorClass = 'border-green-500';
     }
 
-    div.innerHTML = `<div class=" taskContainer p-4 border-l-4 ${borderColorClass} bg-gray-50 rounded-lg flex justify-between items-center" draggable="true">
-                        <div>
-                            <h3 class="font-semibold" draggable="true">${task.title}</h3>
-                            <p class="text-sm text-gray-500">Due: ${task.date}</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button onclick= "deleteTask(${index})" class="text-red-500 hover:text-red-700 " id="deleteTask" >Delete</button>
-                            <button onclick='showEditModal(${index})' class="text-yellow-500 hover:text-yellow-700" id="taskedit" >Edit</button>
-                        </div>
-                    </div>`;
-                 
-    placeholder.appendChild(div);
-    dragTask();
-    
-}
+    div.classList.add('taskContainer', 'p-4', 'border-l-4', borderColorClass, bgColor , 'bg-gray-50', 'rounded-lg', 
+                      'flex', 'justify-between', 'items-center', 'opacity-0', 'transition-opacity', 'duration-500');
 
-// drag drop function 
-function dragTask(){
-    let items = document.querySelectorAll('.taskContainer');
-    items.forEach(item =>{
-        item.addEventListener('dragstart',function(){
-            drag = item ;
-            item.style.opacity = '0.3' ;
-        })
-        item.addEventListener('dragend',function(){
-            drag = null ;
-            item.style.opacity = '1' ;
-        })
-    })
+    div.innerHTML = `<div>
+                        <h3 class="font-semibold">${task.title}</h3>
+                        <p class="text-sm text-gray-500">Due: ${task.date}</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="deleteTask(${index})" class="text-red-500 hover:text-red-700">Delete</button>
+                        <button onclick="showEditModal(${index})" class="text-yellow-500 hover:text-yellow-700">Edit</button>
+                    </div>`;
+    
+    placeholder.appendChild(div);
+    setTimeout(() => {
+        div.classList.remove('opacity-0');
+    }, 50); 
 }
