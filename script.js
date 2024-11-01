@@ -155,7 +155,7 @@ function deleteTask(index) {
 function createHtml(placeholder, task, index) { 
     const div = document.createElement('div');
     let borderColorClass;
-    let bgColor ;
+    let bgColor;
 
     if (task.priority === 'P0') {
         borderColorClass = 'border-red-500';
@@ -164,24 +164,37 @@ function createHtml(placeholder, task, index) {
         borderColorClass = 'border-yellow-400';
         bgColor = 'bg-yellow-500/[.08]';
     } else if (task.priority === 'P2') {
-        bgColor = 'bg-green-500/[.08]';
         borderColorClass = 'border-green-500';
+        bgColor = 'bg-green-500/[.08]';
     }
 
-    div.classList.add('taskContainer', 'p-4', 'border-l-4', borderColorClass, bgColor , 'bg-gray-50', 'rounded-lg', 
-                      'flex', 'justify-between', 'items-center', 'opacity-0', 'transition-opacity', 'duration-500');
+    div.classList.add(
+        'taskContainer', 'p-4', 'border-l-4', borderColorClass, bgColor,
+        'rounded-lg', 'flex', 'flex-col', 'space-y-2', 'transition-opacity', 
+        'duration-500', 'opacity-0'
+    );
 
-    div.innerHTML = `<div>
-                        <h3 class="font-semibold">${task.title}</h3>
-                        <p class="text-sm text-gray-500">Due: ${task.date}</p>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <button onclick="deleteTask(${index})" class="text-red-500 hover:text-red-700">Delete</button>
-                        <button onclick="showEditModal(${index})" class="text-yellow-500 hover:text-yellow-700">Edit</button>
-                    </div>`;
-    
+    div.innerHTML = `
+        <div class="flex flex-col space-y-1">
+            <h3 class="font-semibold text-lg text-gray-900 overflow-hidden whitespace-normal break-words">
+                ${task.title}
+            </h3>
+            <p class="text-sm text-gray-500 mb-2 overflow-hidden text-ellipsis whitespace-normal break-words">
+                Due: ${task.date}
+            </p>
+            <p class="text-sm text-gray-500 overflow-hidden text-ellipsis whitespace-normal break-words">
+                ${task.description}
+            </p>
+        </div>
+        <div class="flex items-center space-x-2">
+            <button onclick="deleteTask(${index})" class="text-red-500 hover:text-red-700">Delete</button>
+            <button onclick="showEditModal(${index})" class="text-yellow-500 hover:text-yellow-700">Edit</button>
+        </div>
+    `;
+
     placeholder.appendChild(div);
+
     setTimeout(() => {
         div.classList.remove('opacity-0');
-    }, 50); 
+    }, 50);
 }

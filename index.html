@@ -30,19 +30,20 @@
                 <h2 class="text-lg font-semibold">To Do</h2>
                 <span id="todoTotal" class="text-sm text-gray-500">0</span>
             </div>
-            <div class="space-y-2" id="todoContainer">
+            <div class="space-y-2 flex-wrap" id="todoContainer">
                 <!-- Task Card Example -->
-                <div class="p-4 border-l-4 border-red-500 bg-gray-50 rounded-lg flex justify-between items-center"
-                    draggable="true">
+                <div class="p-4 border-l-4 border-red-500 bg-gray-50 rounded-lg flex flex-col justify-between space-y-2">
                     <div>
-                        <h3 class="font-semibold" draggable="true">Task Title</h3>
-                        <p class="text-sm text-gray-500">Due: 2024-11-03</p>
+                        <h3 class="font-semibold text-gray-900 text-lg overflow-hidden whitespace-normal break-words">Task Title That May Be Really Long</h3>
+                        <p class="text-sm text-gray-500 mb-2 overflow-hidden text-ellipsis whitespace-normal break-words">Due: 2024-11-03</p>
+                        <p class="text-sm text-gray-500 overflow-hidden text-ellipsis whitespace-normal break-words">This is a long description that will automatically wrap onto the next line as needed and should not overflow out of the task card container.</p>
                     </div>
                     <div class="flex items-center space-x-2">
                         <button class="text-red-500 hover:text-red-700">Delete</button>
                         <button class="text-yellow-500 hover:text-yellow-700">Edit</button>
                     </div>
                 </div>
+                
             </div>
         </div>
 
