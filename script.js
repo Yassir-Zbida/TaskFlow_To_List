@@ -13,16 +13,13 @@ const totalTaskDone = document.getElementById('doneTotal');
 const editTask = document.getElementById('editTaskModal');
 const editBtn = document.getElementById('taskedit');
 const cancelEditTask = document.getElementById('cancelEditTask');
-
 const editTaskTitle = document.getElementById('editTaskTitle');
 const editTaskDescription = document.getElementById('editTaskDescription');
 const editTaskStatus = document.getElementById('editTaskStatus');
 const editTaskDate = document.getElementById('editTaskDate');
 const editTaskPriority = document.getElementById('editTaskPriority');
 const editTaskBtn = document.getElementById('editTaskBtn');
-let drag = null ;
-
-
+const searchInput = document.getElementById('searchIput');
 let tasks = [];
 
 // Popup Open and Close
@@ -47,11 +44,11 @@ function validateTaskForm() {
 
     const dueDate = new Date(taskDate.value);
     const today = new Date();
-    if (!taskDate.value) {
-        errorMessage += 'Due date is required.\n';
-    } else if (dueDate < today.setHours(0, 0, 0, 0)) {
-        errorMessage += 'Due date must be today or a future date.\n';
-    }
+    // if (!taskDate.value) {
+    //     errorMessage += 'Due date is required.\n';
+    // } else if (dueDate < today.setHours(0, 0, 0, 0)) {
+    //     errorMessage += 'Due date must be today or a future date.\n';
+    // }
 
     if (!taskPriority.value) {
         errorMessage += 'Please select a priority level.\n';
@@ -110,6 +107,9 @@ function showEditModal(index) {
 }
 // Edit task 
 function editTaskFunction(index) {
+    if (!validateTaskForm()) {
+        return; 
+    }
     tasks[index] = {
         title: editTaskTitle.value,
         description: editTaskDescription.value,
@@ -121,8 +121,6 @@ function editTaskFunction(index) {
     hideModal();
     updateTaskCounters();
 }
-
-
 
 // close PopUp 
 function closeEditModal(){
@@ -236,4 +234,40 @@ function createHtml(placeholder, task, index) {
     setTimeout(() => {
         div.classList.remove('opacity-0');
     }, 50);
+}
+searchInput.addEventListener('input',searchTask)
+
+// Task search function 
+function searchTask (){
+    const filteredTasks = [];
+    const keyword = searchInput.value.toUpperCase();
+    for(let i = 0 ; i<tasks.length; i++){
+        const taskTitle = tasks[i].title.toUpperCase();
+        if (taskTitle.includes(keyword)) { 
+            filteredTasks.push(tasks[i]);
+        }
+    }
+    displayFilteredTasks(filteredTasks);
+}
+
+// display filtered tasks
+function displayFilteredTasks(filteredTasks) {
+    const todo = document.getElementById('todoContainer');
+    const doing = document.getElementById('doingContainer');
+    const done = document.getElementById('doneContainer');
+
+    todo.innerHTML = "";
+    doing.innerHTML = "";
+    done.innerHTML = "";
+
+    for (let i = 0; i < filteredTasks.length; i++) {
+        const status = filteredTasks[i].status.toLowerCase();
+        if (status === 'todo') {
+            createHtml(todo, filteredTasks[i], i);
+        } else if (status === 'doing') {
+            createHtml(doing, filteredTasks[i], i);
+        } else if (status === 'done') {
+            createHtml(done, filteredTasks[i], i);
+        }
+    }
 }

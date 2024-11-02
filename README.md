@@ -29,4 +29,4 @@ TaskFlow est une application de gestion de tâches développée pour améliorer 
 - **HTML / CSS / JavaScript**
 - **Tailwind CSS** : Pour un design moderne et cohérent.
 - **LocalStorage** : Pour le stockage local des données utilisateur.
-- **GitHub Pages / Vercel** : Pour le déploiement de l'application.
+- **GitHub Pages** : Pour le déploiement de l'application.
