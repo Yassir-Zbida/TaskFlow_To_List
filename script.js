@@ -19,7 +19,7 @@ const editTaskStatus = document.getElementById('editTaskStatus');
 const editTaskDate = document.getElementById('editTaskDate');
 const editTaskPriority = document.getElementById('editTaskPriority');
 const editTaskBtn = document.getElementById('editTaskBtn');
-const searchInput = document.getElementById('searchIput');
+const searchInput = document.getElementById('searchInput');
 let tasks = [];
 
 // Popup Open and Close
@@ -232,13 +232,14 @@ function createHtml(placeholder, task, index) {
     placeholder.appendChild(div);
 }
 
-searchInput.addEventListener('input',searchTask)
+searchInput.addEventListener('input', searchTask);
 
 // Task search function 
-function searchTask (){
+function searchTask() {
     const filteredTasks = [];
     const keyword = searchInput.value.toUpperCase();
-    for(let i = 0 ; i<tasks.length; i++){
+    
+    for (let i = 0; i < tasks.length; i++) {
         const taskTitle = tasks[i].title.toUpperCase();
         if (taskTitle.includes(keyword)) { 
             filteredTasks.push(tasks[i]);
