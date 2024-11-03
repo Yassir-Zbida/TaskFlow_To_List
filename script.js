@@ -87,10 +87,9 @@ addTaskBtn.addEventListener('click', function() {
     addTaskModal.classList.add('hidden');
     displayTask();
 });
-function hideModal(){
-    editTask.classList.add('hidden');
 
-    
+function hideModal(){
+    editTask.classList.add('hidden');  
 }
 
 // Edit Popup 
@@ -107,9 +106,9 @@ function showEditModal(index) {
 }
 // Edit task 
 function editTaskFunction(index) {
-    if (!validateTaskForm()) {
-        return; 
-    }
+    // if (!validateTaskForm()) {
+    //     return; 
+    // }
     tasks[index] = {
         title: editTaskTitle.value,
         description: editTaskDescription.value,
@@ -207,8 +206,7 @@ function createHtml(placeholder, task, index) {
 
     div.classList.add(
         'taskContainer', 'p-4', 'border-l-4', borderColorClass, bgColor,
-        'rounded-lg', 'flex', 'flex-col', 'space-y-2', 'transition-opacity', 
-        'duration-500', 'opacity-0'
+        'rounded-lg', 'flex', 'flex-col', 'space-y-2'
     );
 
     div.innerHTML = `
@@ -224,17 +222,16 @@ function createHtml(placeholder, task, index) {
             </p>
         </div>
         <div class="flex items-center space-x-2">
+            <i onclick="deleteTask(${index})" class="ri-delete-bin-line text-red-500 hover:text-red-700"></i>
             <button onclick="deleteTask(${index})" class="text-red-500 hover:text-red-700">Delete</button>
+            <i onclick="showEditModal(${index})" class="ri-edit-2-line text-yellow-500 hover:text-yellow-700"></i>
             <button onclick="showEditModal(${index})" class="text-yellow-500 hover:text-yellow-700">Edit</button>
         </div>
     `;
 
     placeholder.appendChild(div);
-
-    setTimeout(() => {
-        div.classList.remove('opacity-0');
-    }, 50);
 }
+
 searchInput.addEventListener('input',searchTask)
 
 // Task search function 
